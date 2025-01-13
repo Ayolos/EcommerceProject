@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\ProductCollection;
+use App\Http\Resources\ProductResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,8 +17,8 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
 
         return Inertia::render('Category/Show', [
-            'category' => $category,
-            'products' => $category->products()->get(),
+            'category' => CategoryResource::make($category),
+            'products' => ProductCollection::make($category->products()->get()),
         ]);
     }
 }

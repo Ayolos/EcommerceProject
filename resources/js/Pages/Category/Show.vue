@@ -12,11 +12,9 @@ const props = defineProps({
 
 <template>
     <ecommerce-layout>
-        <div>Categorie : {{ category.name }}</div>
-        <div class="grid grid-cols-3 gap-6">
-            <div class="rounded-lg bg-white" v-if="products.length !== 0" v-for="product in products">
-                <card :product="product"></card>
-            </div>
+        <h1>{{ category.name }}</h1>
+        <div class="grid grid-cols-3 gap-4">
+            <card v-for="product in products.data" :key="product.id" :product="product" />
         </div>
     </ecommerce-layout>
 </template>

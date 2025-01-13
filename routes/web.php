@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SearchController;
@@ -11,8 +12,7 @@ Route::get('/home', function (){
     return Inertia::render('Home');
 })->name('home');
 
-Route::get('/products', [ProductController::class, 'index'])->name('products.index');
-Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
+Route::resource('products', ProductController::class)->only(['index', 'show']);
 
 Route::get('/categories/{category_id}', [CategoryController::class, 'show'])->name('categories.show');
 
@@ -36,4 +36,7 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    Route::resource('carts', CartController::class)
+        ->only(['index', 'store', 'destroy', 'update']);
 });

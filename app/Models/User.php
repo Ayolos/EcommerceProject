@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -63,5 +64,19 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function carts() : HasMany
+    {
+        // TODO: Changer en relation belongsToCart car l'utilisateur appartient à un seul panier
+        return $this->hasMany(Cart::class);
+    }
+
+    public function getCart()
+    {
+        if ($this->carts()->count() === 0) {
+            return $this->carts()->create();
+        }
+
+        return $this->carts()->first();
     }
 }

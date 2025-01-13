@@ -18,12 +18,14 @@ class ProductFactory extends Factory
      */
     public function definition(): array
     {
+        $stock = $this->faker->numberBetween(1, 100);
         return [
             //
             'name' => $this->faker->name(),
             'description' => $this->faker->text(),
             'price' => $this->faker->randomFloat(2, 1, 100000),
-            'stock' => $this->faker->numberBetween(1, 100),
+            'stock' => $stock,
+            'stock_initial' => $stock,
             'image' => $this->faker->imageUrl(),
             'status' => $this->faker->boolean(),
             'category_id' => Category::inRandomOrder()->first()->id,

@@ -2,29 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductCollection;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ProductController extends Controller
 {
-    //
-
     public function index()
     {
-        $products = Product::latest()->get();
+        $products = Product::all();
 
         return Inertia::render('Product/Index', [
-            'products' => $products,
+            'products' => ProductResource::collection($products),
         ]);
     }
 
-    public function show($id)
+    public function show(Product $product)
     {
-        $product = Product::findOrFail($id);
-
         return Inertia::render('Product/Show', [
-            'product' => $product,
+            'product' => ProductResource::make($product),
         ]);
 
     }

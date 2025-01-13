@@ -23,4 +23,24 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function carts()
+    {
+        return $this->belongsToMany(Cart::class);
+    }
+
+    public function search($query)
+    {
+        return $this->where('name', 'like', "%$query%")->get();
+    }
+
+    public function getActualStock(): int
+    {
+        return $this->stock - $this->carts()->sum('quantity');
+    }
+
+    public function checkStock($quantity): bool
+    {
+        return $this->getActualStock() >= $quantity;
+    }
 }
